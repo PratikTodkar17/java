@@ -46,6 +46,17 @@ pipeline {
                 sh 'docker push $IMAGE_NAME'
             }
         }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
 
+        stage('Verify Deployment') {
+            steps {
+                sh 'kubectl get deployments'
+                sh 'kubectl get pods'
+            }
+        }
     }
 } 
